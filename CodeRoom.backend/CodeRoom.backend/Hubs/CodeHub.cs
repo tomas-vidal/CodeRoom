@@ -29,11 +29,17 @@ namespace CodeRoom.backend.Hubs
                 {
                     _roomsCodes.Remove(userConnection.Room);
                 }
+
+                SendUserCountToRoom(userConnection.Room);
             }
 
             return base.OnDisconnectedAsync(exception);
         }
-
+        private async Task SendUserCountToRoom(string roomName)
+        {
+            var userCount = _connections.Values.Count(c => c.Room == roomName);
+            await Clients.Group(roomName).SendAsync("UpdateUserCount", userCount);
+        }
 
         public async Task SendCode(string code)
         {
@@ -57,6 +63,8 @@ namespace CodeRoom.backend.Hubs
             {
                 await Clients.Group(userConnection.Room).SendAsync("ReceiveCode", userConnection.User, code);
             }
+
+            SendUserCountToRoom(userConnection.Room);
         }
     }
 }

@@ -6,6 +6,7 @@ import Editor from "@monaco-editor/react";
 function App() {
   const [connection, setConnection] = useState();
   const [currentRoom, setCurrentRoom] = useState();
+  const [usersInRoom, setUsersInRoom] = useState(0);
   const [code, setCode] = useState();
 
   const handleEditorChange = (value, event) => {
@@ -19,17 +20,18 @@ function App() {
         .configureLogging(LogLevel.Information)
         .build();
 
-      connection.on("ReceiveMessage", (user, message) => {
-        console.log("message received: ", message);
-      });
-
       connection.on("ReceiveCode", (user, codeReceived) => {
         setCode(codeReceived);
+      });
+
+      connection.on("UpdateUserCount", (userCount) => {
+        setUsersInRoom(userCount);
       });
 
       connection.onclose((e) => {
         setConnection();
         setCode();
+        setUsersInRoom(0);
       });
 
       await connection.start();
@@ -67,12 +69,15 @@ function App() {
         <section className="flex flex-col h-full w-full">
           <header className="flex items-center h-16 text-white mx-2">
             <span>Room: {currentRoom}</span>
-            <button
-              className="bg-red-700 w-36 p-2 rounded-sm text-white font-bold ml-auto"
-              onClick={closeConnection}
-            >
-              Leave room
-            </button>
+            <div className="ml-auto">
+              <span className="mr-2"> Users: {usersInRoom}</span>
+              <button
+                className="bg-red-700 w-36 p-2 rounded-sm text-white font-bold"
+                onClick={closeConnection}
+              >
+                Leave room
+              </button>
+            </div>
           </header>
           <Editor
             height="100%"
