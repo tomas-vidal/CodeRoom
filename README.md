@@ -1,8 +1,8 @@
 # CodeRoom: A Collaborative Coding Web App
 
-CodeRoom is a real-time collaborative coding web app that enables users to write and share code together in a virtual "room". When you enter a room by inputting a unique code, you’re able to see and interact with the code in real time alongside others. All code written by anyone in the room is immediately visible to everyone, ensuring smooth collaboration and instant feedback.
+CodeRoom is a web app designed for real-time collaborative JavaScript coding. It allows users to write, share, and edit JavaScript code together in a virtual "room". By entering a unique room code, users can instantly collaborate, with all code changes visible to everyone in the room in real time. This project was created as an experiment using WebSockets (via SignalR) to go beyond the typical chat app.
 
-By sharing the same room code, users can invite others to join the same collaborative space, making it easy to pair up or work together on coding projects.
+Users can invite others to join their room by sharing the room code, enabling seamless collaboration for pair programming or group coding projects.
 
 ---
 
